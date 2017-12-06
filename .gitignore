@@ -1,0 +1,10 @@
+*.pyc
+*.log
+*.pot
+*.sqlite3
+
+.git/
+.idea/
+__pycache__/
+
+secretkey.py
