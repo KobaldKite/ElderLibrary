@@ -2,6 +2,15 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+CARD_RARITIES_LIST = ['common', 'rare', 'epic', 'legendary', 'unique legendary']
+CARD_TYPES_LIST = ['action', 'creature', 'item', 'support']
+DECK_ARCHETYPES_LIST = ['aggro', 'midrange', 'control', 'support']
+
+CARD_RARITIES = enumerate(CARD_RARITIES_LIST, 1)
+CARD_TYPES = enumerate(CARD_TYPES_LIST, 1)
+DECK_ARCHETYPES = enumerate(DECK_ARCHETYPES_LIST, 1)
+
+
 class GeneralEntity(models.Model):
     name = models.CharField(max_length=256, primary_key=True)
 
@@ -13,15 +22,7 @@ class Keyword(GeneralEntity):
     pass
 
 
-class Rarity(GeneralEntity):
-    pass
-
-
 class Attribute(GeneralEntity):
-    pass
-
-
-class CardType(GeneralEntity):
     pass
 
 
@@ -30,7 +31,7 @@ class Race(GeneralEntity):
 
 
 class Expansion(GeneralEntity):
-    is_actual = models.BooleanField()
+    pass
 
 
 class Card(models.Model):
@@ -39,10 +40,10 @@ class Card(models.Model):
                               default='card_collection/static/images/card_collection/card_placeholder.png'
                               )
 
-    card_type = models.ForeignKey(CardType)
+    card_type = models.IntegerField(choices=CARD_TYPES)
     attributes = models.ManyToManyField(Attribute)
 
-    rarity = models.ForeignKey(Rarity)
+    rarity = models.IntegerField(choices=CARD_RARITIES)
     summon_cost = models.IntegerField(null=True, blank=True)
     soultrap_cost = models.IntegerField(null=True, blank=True)
 
@@ -69,23 +70,11 @@ class Collection(models.Model):
     number_of_cards = models.IntegerField()
 
 
-class DeckClass(GeneralEntity):
-    attributes = models.ManyToManyField(Attribute)
-
-
-class DeckArchetype(GeneralEntity):
-    pass
-
-
 class Deck(GeneralEntity):
     id = models.AutoField(primary_key=True)
-    deck_class = models.ForeignKey(DeckClass)
-    deck_archetype = models.ForeignKey(DeckArchetype)
-
-
-class DeckAuthors(models.Model):
+    deck_archetype = models.IntegerField(choices=DECK_ARCHETYPES)
+    deck_attributes = models.ManyToManyField(Attribute)
     author = models.ManyToManyField(User)
-    deck = models.ManyToManyField(Deck)
 
 
 class DeckContent(models.Model):
