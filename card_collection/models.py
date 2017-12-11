@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 CARD_RARITIES_LIST = ['common', 'rare', 'epic', 'legendary', 'unique legendary']
 CARD_TYPES_LIST = ['action', 'creature', 'item', 'support']
-DECK_ARCHETYPES_LIST = ['aggro', 'midrange', 'control', 'support']
+DECK_ARCHETYPES_LIST = ['aggro', 'midrange', 'control', 'hybrid']
 
 CARD_RARITIES = enumerate(CARD_RARITIES_LIST, 1)
 CARD_TYPES = enumerate(CARD_TYPES_LIST, 1)
@@ -35,9 +35,9 @@ class Expansion(GeneralEntity):
 
 
 class Card(models.Model):
-    name = models.CharField(max_length=256, primary_key=True)
-    image = models.ImageField(upload_to='card_collection/static/card_collection/images/cards',
-                              default='card_collection/static/images/card_collection/card_placeholder.png'
+    name = models.CharField(max_length=256)
+    image = models.ImageField(upload_to='card_collection/images/cards',
+                              default='card_collection/card_placeholder.png'
                               )
 
     card_type = models.IntegerField(choices=CARD_TYPES)

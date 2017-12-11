@@ -1,0 +1,16 @@
+{% extends "card_collection/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <h2 align="center">This is a collection placeholder.</h2>
+    {% for card in cards_list %}
+        <a href="{% url 'card_details' card.id %}">
+            <img src="{{ card.image.url }}">
+        </a>
+    {% endfor %}
+</div>
+
+{% endblock %}

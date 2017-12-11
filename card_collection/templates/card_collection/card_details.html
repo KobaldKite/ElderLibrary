@@ -1,0 +1,9 @@
+{% extends "card_collection/base.html" %}
+
+{% block content %}
+
+<h2>{{ card.name }}</h2>
+<p>Magicka cost: {{ card.magicka_cost }}</p>
+<p><img src="{{ card.image.url }}"></p>
+
+{% endblock %}
