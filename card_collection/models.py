@@ -37,7 +37,7 @@ class Expansion(GeneralEntity):
 class Card(models.Model):
     name = models.CharField(max_length=256)
     image = models.ImageField(upload_to='card_collection/images/cards',
-                              default='card_collection/card_placeholder.png'
+                              default='card_collection/images/card_placeholder.png'
                               )
 
     card_type = models.IntegerField(choices=CARD_TYPES)
