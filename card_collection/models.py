@@ -64,20 +64,14 @@ class Card(models.Model):
 
 
 class Collection(models.Model):
-    """This represents all cards owned by all users. One big collection."""
+    """For now, only one copy of each card is available in a collection"""
     owner = models.ManyToManyField(User)
-    card = models.ManyToManyField(Card)
-    number_of_cards = models.IntegerField()
+    cards = models.ManyToManyField(Card)
 
 
 class Deck(GeneralEntity):
-    id = models.AutoField(primary_key=True)
+    """For now, only one copy of each card is available in a deck"""
     deck_archetype = models.IntegerField(choices=DECK_ARCHETYPES)
     deck_attributes = models.ManyToManyField(Attribute)
-    author = models.ManyToManyField(User)
-
-
-class DeckContent(models.Model):
-    deck = models.ManyToManyField(Deck)
-    card = models.ManyToManyField(Card)
-    number_of_cards = models.IntegerField()
+    author = models.ForeignKey(User)
+    cards = models.ManyToManyField(Card)

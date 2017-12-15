@@ -1,7 +1,7 @@
 import factory
 from factory import fuzzy
-from .models import Attribute, Card, Expansion, Keyword, Race
-from .models import CARD_TYPES_LIST, CARD_RARITIES_LIST
+from . import models
+from .models import CARD_RARITIES_LIST, CARD_TYPES_LIST
 
 INDEX_SHIFT = 1
 GENERAL_RANGE = [0, 10]
@@ -15,66 +15,67 @@ CREATURE = CARD_TYPES_LIST.index('creature') + INDEX_SHIFT
 ITEM = CARD_TYPES_LIST.index('item') + INDEX_SHIFT
 
 
-class AttributeFactory(factory.Factory):
+class AttributeFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = Attribute
+        model = models.Attribute
 
-    name = factory.Iterator(CARD_ATTRIBUTES, cycle=False)
+    name = factory.Iterator(CARD_ATTRIBUTES)
 
 
-class ExpansionFactory(factory.Factory):
+class ExpansionFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = Expansion
+        model = models.Expansion
 
     name = fuzzy.FuzzyText(length=6, prefix='Expansion_')
 
 
-class KeywordFactory(factory.Factory):
+class KeywordFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = Keyword
+        model = models.Keyword
 
     name = factory.Faker('word')
 
 
-class RaceFactory(factory.Factory):
+class RaceFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = Race
+        model = models.Race
 
     name = factory.Faker('word')
 
 
-class CardFactory(factory.Factory):
+class CardFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = Card
+        model = models.Card
 
     name = factory.Faker('word')
-    image = factory.django.ImageField(color='green')
-    attributes = factory.RelatedFactory(AttributeFactory)
+    image = factory.django.ImageField()
+    attributes = models.Attribute.objects.all().first()
     rarity = fuzzy.FuzzyInteger(*CARD_RARITY_RANGE)
     summon_cost = fuzzy.FuzzyInteger(*GENERAL_RANGE)
     soultrap_cost = fuzzy.FuzzyInteger(*GENERAL_RANGE)
     magicka_cost = fuzzy.FuzzyInteger(*GENERAL_RANGE)
-    mechanics_text = factory.Factory('word')
-    flavor_text = factory.Factory('sentence')
+    mechanics_text = factory.Faker('word')
+    flavor_text = factory.Faker('sentence')
     is_collectible = fuzzy.FuzzyChoice([True, False])
-    expansion = factory.RelatedFactory(ExpansionFactory)
+    expansion = factory.Iterator(models.Expansion.objects.all())
 
 
 class CreatureCardFactory(CardFactory):
     card_type = CREATURE
+    name = factory.Faker('job')
 
     attack = fuzzy.FuzzyInteger(*GENERAL_RANGE)
     health = fuzzy.FuzzyInteger(*GENERAL_RANGE)
-    keywords = factory.RelatedFactory(KeywordFactory)
-    races = factory.RelatedFactory(KeywordFactory)
+    keywords = factory.Iterator(models.Keyword.objects.all())
+    races = factory.Iterator(models.Race.objects.all())
 
 
 class ItemCardFactory(CardFactory):
-    card_type = 3
-    keywords = factory.RelatedFactory(KeywordFactory)
+    card_type = ITEM
+    keywords = factory.Iterator(models.Keyword.objects.all())
 
 
 class ActionCardFactory(CardFactory):
-    card_type = 1
+    card_type = ACTION
 
-#TODO: tweak the factories so multiple keywords, races, and attributes are assigned
+# TODO: tweak the factories so multiple keywords, races, and attributes are assigned
