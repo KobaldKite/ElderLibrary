@@ -2,8 +2,27 @@
 
 {% block content %}
 
-<h2>{{ card.name }}</h2>
-<p>Magicka cost: {{ card.magicka_cost }}</p>
-<p><img src="{{ card.image.url }}"></p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6 col-xs-12" align="center">
+            <p><img class="details-card-image" src="{{ card.image.url }}"></p>
+        </div>
+        <div class="col-md-6 col-xs-12">
+            <h2>{{ card.name }}</h2>
+            <p class="card-property">Card type: {{ card.type_string }} </p>
+            <p class="card-property">Rarity: {{ card.rarity_string }} </p>
+            <p>Magicka cost: {{ card.magicka_cost }}</p>
+
+            {% if card.card_type == 2 %} <!-- REMOVE HARDCODE -->
+                <p>Attack: {{ card.attack }}</p>
+                <p>Health: {{ card.attack }}</p>
+            {% endif %}
+
+            <p>Summon cost: {{ card.summon_cost }}</p>
+            <p>Soultrap cost: {{ card.soultrap_cost }}</p>
+            <p> {{ card.mechanics_text }} </p>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

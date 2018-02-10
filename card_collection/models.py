@@ -10,6 +10,8 @@ CARD_RARITIES = enumerate(CARD_RARITIES_LIST, 1)
 CARD_TYPES = enumerate(CARD_TYPES_LIST, 1)
 DECK_ARCHETYPES = enumerate(DECK_ARCHETYPES_LIST, 1)
 
+ENUMERATE_SHIFT = 1  # TODO: start enumeration from 0
+
 
 class GeneralEntity(models.Model):
     name = models.CharField(max_length=256, primary_key=True)
@@ -61,6 +63,12 @@ class Card(models.Model):
 
     def __str__(self):
         return self.name
+
+    def rarity_string(self):
+        return CARD_RARITIES_LIST[self.rarity - ENUMERATE_SHIFT]
+
+    def type_string(self):
+        return CARD_TYPES_LIST[self.card_type - ENUMERATE_SHIFT]
 
 
 class Collection(models.Model):

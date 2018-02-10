@@ -1,4 +1,25 @@
-.collection_card_image {
+.collection-card-image {
     max-width: 100px;
     max-height: 200px;
+}
+
+.details-card-image {
+    max-width: 300px;
+    max-height: 600px;
+}
+
+.bg-c-dark {
+    background-color: #050E17;
+}
+
+.bg-c-semidark {
+    background-color: #091f21;
+}
+
+.text-c-grey {
+    text-color: #AFB2AB;
+}
+
+.card-property {
+    text-transform: capitalize;
 }
