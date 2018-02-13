@@ -9,10 +9,15 @@
         </div>
         <div class="col-md-6 col-xs-12">
             <h2>{{ card.name }}</h2>
-            <p class="card-property">Card type: {{ card.type_string }} </p>
-            <p class="card-property">Rarity: {{ card.rarity_string }} </p>
+            <p>Card type:
+                <span style="text-transform:capitalize;">{{ card.type_string }}</span>
+            </p>
+            <p>Rarity:
+                <span style="text-transform:capitalize;">{{ card.rarity_string }}</span>
+            </p>
             <p>Magicka cost: {{ card.magicka_cost }}</p>
 
+            <!-- Creature-type cards have attack and health -->
             {% if card.card_type == 2 %} <!-- REMOVE HARDCODE -->
                 <p>Attack: {{ card.attack }}</p>
                 <p>Health: {{ card.attack }}</p>
@@ -20,6 +25,7 @@
 
             <p>Summon cost: {{ card.summon_cost }}</p>
             <p>Soultrap cost: {{ card.soultrap_cost }}</p>
+
             <p> {{ card.mechanics_text }} </p>
         </div>
     </div>

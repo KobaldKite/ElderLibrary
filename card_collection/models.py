@@ -6,11 +6,9 @@ CARD_RARITIES_LIST = ['common', 'rare', 'epic', 'legendary', 'unique legendary']
 CARD_TYPES_LIST = ['action', 'creature', 'item', 'support']
 DECK_ARCHETYPES_LIST = ['aggro', 'midrange', 'control', 'hybrid']
 
-CARD_RARITIES = enumerate(CARD_RARITIES_LIST, 1)
-CARD_TYPES = enumerate(CARD_TYPES_LIST, 1)
-DECK_ARCHETYPES = enumerate(DECK_ARCHETYPES_LIST, 1)
-
-ENUMERATE_SHIFT = 1  # TODO: start enumeration from 0
+CARD_RARITIES = enumerate(CARD_RARITIES_LIST, 0)
+CARD_TYPES = enumerate(CARD_TYPES_LIST, 0)
+DECK_ARCHETYPES = enumerate(DECK_ARCHETYPES_LIST, 0)
 
 
 class GeneralEntity(models.Model):
@@ -37,6 +35,7 @@ class Expansion(GeneralEntity):
 
 
 class Card(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=256)
     image = models.ImageField(upload_to='card_collection/images/cards',
                               default='card_collection/images/card_placeholder.png'
@@ -65,10 +64,10 @@ class Card(models.Model):
         return self.name
 
     def rarity_string(self):
-        return CARD_RARITIES_LIST[self.rarity - ENUMERATE_SHIFT]
+        return CARD_RARITIES_LIST[self.rarity]
 
     def type_string(self):
-        return CARD_TYPES_LIST[self.card_type - ENUMERATE_SHIFT]
+        return CARD_TYPES_LIST[self.card_type]
 
 
 class Collection(models.Model):
@@ -77,9 +76,17 @@ class Collection(models.Model):
     cards = models.ManyToManyField(Card)
 
 
-class Deck(GeneralEntity):
+class Deck(models.Model):
     """For now, only one copy of each card is available in a deck"""
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=256)
     deck_archetype = models.IntegerField(choices=DECK_ARCHETYPES)
     deck_attributes = models.ManyToManyField(Attribute)
     author = models.ForeignKey(User)
     cards = models.ManyToManyField(Card)
+
+    def __str__(self):
+        return self.name
+
+    def archerype_string(self):
+        return DECK_ARCHETYPES_LIST[self.deck_archetype]

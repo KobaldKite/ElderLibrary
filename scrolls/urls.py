@@ -9,8 +9,10 @@ from card_collection import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('django.contrib.auth.urls')),
-    url(r'cards/$', views.CardList.as_view(), name='cards'),
-    url(r'^(?P<pk>[0-9]+)$', views.CardDetails.as_view(), name='card_details'),
+    url(r'^cards/$', views.CardList.as_view(), name='cards'),
+    url(r'^card/(?P<pk>[0-9]+)$', views.CardDetails.as_view(), name='card_details'),
+    url(r'^decks/$', views.DeckList.as_view(), name='decks'),
+    url(r'^deck/(?P<pk>[0-9]+)$', views.DeckDetails.as_view(), name='deck_details'),
     url(r'^$', views.Index.as_view(), name='index')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

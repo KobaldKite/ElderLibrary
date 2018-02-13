@@ -1,2 +1,21 @@
 {% extends "base/base.html" %}
 
+{% block content %}
+
+<div class="container-fluid">
+    <h2 align="center">This is a deck list placeholder.</h2>
+    <div class="row">
+        <div class="col-md-6">
+            {% for deck in decks_list %}
+                <a href="{% url 'deck_details' deck.id %}">
+                    <p>Name: {{ deck.name }} ID: {{ deck.id }} </p>
+                </a>
+            {% endfor %}
+        </div>
+        <div class="col-md-6">
+            <p>Filters</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
